@@ -1,0 +1,40 @@
+to add to project details
+
+    <h3>Project Description</h3>
+        
+            <h4>{{project.description}}</h4>
+
+
+
+            new project
+
+            
+
+add ot page with ratings.
+
+{% for rating in user.ratings %}
+<a href="{{ url_for('show_rating') }}">
+</a>
+{{rating.project.projectname}}:{{rating.score}}
+
+
+
+
+
+user_profile
+
+
+</form>
+<form action="/add_project" method="POST">
+  <label for="projectname">Project name:</label>
+  <input type="text" name="projectname">
+  <br><br>
+  <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea>
+<input type="submit" value="Submit">
+</form>
+
+</form>
+
+
+
+

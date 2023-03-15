@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% extends 'base.html' %} 
+{% block title %} All Projects {% endblock %}
+
+
+
+{% block body %}
+
+
+  <style>
+    table, th {
+      border:1px solid rgb(167, 160, 199);
+      background-color: black;
+      opacity: 70%;
+      
+    }
+    td{
+      color: white;
+      opacity: 200%;
+      font-weight: bolder;
+    }
+    
+    </style>
+    <body>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/movies">View All Projects</a></li>
+      <li><a href="/users">View All Users</a></li> 
+  </ul>
+
+    <ul style ="list-style-type:none">
+      <li>
+        {% for project in project %}
+
+    <h3>Project Name</h3>
+    
+    <a href="/projects/{{ project.project_id }}">{{project.projectname}}</a> <br>
+    Project User ID: <a href="/users/{{ project.project_id }}">{{project.user_id}}</a><br>
+    
+
+        <br>
+        {% endfor %}
+
+
+</li>
+
+</ul>
+{% endblock %}

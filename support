@@ -1,0 +1,8 @@
+unable to generate requirements.tx using pip3 install -r requirements.txt
+(do so manually).
+
+change user id to username on projects page
+
+
+crud.py will not allow me to add project without user id. Not intending to collect user_id since on 
+user page.

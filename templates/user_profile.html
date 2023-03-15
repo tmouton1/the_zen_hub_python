@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/projects">View all projects</a></li>
+  <li><a href="/users">View all users</a></li>
+  
+</ul>
+
+{% extends 'base.html' %}
+{% block title %}User Profile{% endblock %} {% block body %}
+
+
+<h2>User Profile</h2>
+
+
+Welcome to your personal page, {{user.username}}! <br><br>
+
+<h3>Your info:</h3>
+Email: {{user.email}}
+<h3>{{user.username}}'s' Personal Projects:</h3>
+
+
+<div class="form-container">
+  <h3>Add Project</h3>
+
+  <form action="/add_project" method="POST">
+    <label for="projectname">Project name:</label>
+    <input type="text" name="projectname">
+    <br><br>
+
+    
+    <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea>
+  <input type="submit" value="Submit">
+</form>
+
+  </form>
+
+
+
+  
+
+{% endblock %}
+
+
+
+
+
+ 
+</body>
+</html>
