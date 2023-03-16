@@ -6,3 +6,8 @@ change user id to username on projects page
 
 crud.py will not allow me to add project without user id. Not intending to collect user_id since on 
 user page.
+
+
+difficulty with add project form after importing field. saying project, projectname, and projects are all  undefined
+
+

@@ -24,17 +24,21 @@ add ot page with ratings.
 user_profile
 
 
+<div class="form-container">
+  <h3>Add Project</h3>
+
+  <form action="/add_project" method="POST">
+    <label for="projectname">Project name:</label>
+    <input type="text" name="projectname">
+    
+    <br><br>
+
+
+    <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea>
+  <input type="submit" value="Submit">
 </form>
-<form action="/add_project" method="POST">
-  <label for="projectname">Project name:</label>
-  <input type="text" name="projectname">
-  <br><br>
-  <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea>
-<input type="submit" value="Submit">
-</form>
 
-</form>
+  </form>
 
 
-
-
+ add db relationship for project to users table refer to unit 4 and 5 project

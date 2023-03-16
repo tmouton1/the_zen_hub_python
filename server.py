@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Flask, render_template, url_for, request, flash, session,redirect
-from model import connect_to_db, db, Project, User
+from model import connect_to_db, db
 import crud
 from forms import ProjectForm
 
@@ -23,18 +23,18 @@ def home():
 @app.route("/projects")
 def all_projects():
     """View all projects."""
-    
+
     project = crud.get_projects()
-    
+
     return render_template("projects.html", project=project)
 
 # ======================================================
 
 # @app.route("/projects/<project_id>")
 # def show_project(project_id):
-     
+
 #     new_project = crud.get_project_by_id(project_id)
-    
+
 
     # return render_template("project_details.html", new_project=new_project)
 
@@ -51,7 +51,7 @@ def user_login():
         flash("The email or password you entered was incorrect.")
     else:
         session["user_email"] = user.email
-        
+
         flash(f"Welcome back, {user.email}!")
 
     return redirect("/")
@@ -100,7 +100,7 @@ def show_user(user_id):
 
     user = crud.get_user_by_user_id(user_id)
 
-    return render_template("user_profile.html",user=user)
+    return render_template("/user_profile.html",user=user)
 
 # ====================================================
 
@@ -129,34 +129,33 @@ def add_project():
 
 
 
-    
     logged_in_email = session.get("user_email")
     projectname = request.form.get("projectname")
     description = request.form.get("description")
-    
+
 
     if logged_in_email is None:
         flash("Please login to create your project.")
     else:
         user = crud.get_user_by_email(logged_in_email)
-    
+
         new_project = crud.create_project(projectname,description)
 
         with app.app_context():
 
             db.session.add(new_project)
             db.session.commit()
-        
+
             flash(f"Thank you for adding project, {new_project}! Let's add some poses.")
 
-            return redirect(f"/user_profile/, {projectname}, {description}")
-   
+            return redirect(f"/users/{user.user_id}")
+
 
     # ===========================================
 
 @app.route("/users/rating")
 def show_rating(score):
-     
+
     rating = crud.get_rating(score)
     with app.app_context():
         db.session.append(rating)
@@ -186,17 +185,14 @@ def create_rating(project_id):
 
             db.session.add(rating)
             db.session.commit()
-        
+
             flash(f"You rated this movie {rating_score} out of 5.")
 
             return redirect(f"/projects/{project_id}")
-   
+
 
 
 if __name__ == "__main__":
         connect_to_db(app)
         app.env = "development"
         app.run(debug = True, port = 8000, host = "localhost")
-
-
-

@@ -17,6 +17,12 @@
     {% block title %}{{ project.projectname }} - Details{% endblock %}
     
     {% block body %}
+
+    {% for project in projects %}
+
+    <a href="/projects/{{ project.project_id }}">{{ project.projectname }}</a><br><br>
+
+
     <h1>{{ project.projectname }}</h1>
     
     <p>

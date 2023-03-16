@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, IntegerField, BooleanField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField, BooleanField, RadioField, SelectField
 from wtforms.validators import DataRequired, Length
 
 
@@ -10,7 +10,7 @@ from wtforms.validators import DataRequired, Length
 class ProjectForm(FlaskForm):
     projectname = StringField('project name', validators=[DataRequired(), Length(min=4, max=255)])
     description = TextAreaField('description')
-    advanced = BooleanField("advanced?")
+    advanced = BooleanField("Is this project advanced?")
     # user_selection = SelectField("user")
     submit = SubmitField("submit")
 
