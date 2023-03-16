@@ -14,12 +14,9 @@ class User(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    # project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 
     project = db.relationship("Project", back_populates="user", lazy="dynamic")
-
-    # pose = db.relationship("pose", back_populates="user", lazy="dynamic" )
+    pose = db.relationship("Pose", back_populates="user", lazy="dynamic" )
    
-
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email} username={self.username}>"
     
@@ -32,13 +29,8 @@ class Project(db.Model):
     description = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), unique=False, nullable=False) 
     user = db.relationship("User", back_populates="project")
-
-
-    # user = db.relationship("users", back_populates="projects") 
-
-    # pose = db.relationship("pose", back_populates="project", lazy="dynamic")
-
-
+    pose = db.relationship("Pose", back_populates="project", lazy="dynamic")
+    rating = db.relationship("Rating", back_populates="project", lazy="dynamic")
 
     def __repr__(self):
         return f"<Project project_id={self.project_id} projectname={self.projectname}>"
@@ -51,10 +43,10 @@ class Pose(db.Model):
     posename = db.Column(db.String(255))
     advanced = db.Column(db.Boolean, default = False)
     description = db.Column(db.String(255), nullable=False)
-    # user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False) 
-    # user = db.relationship("user", back_populates="poses") 
-    # project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 
-    # project = db.relationship("project", back_populates="poses") 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False) 
+    user = db.relationship("User", back_populates="pose") 
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 
+    project = db.relationship("Project", back_populates="pose") 
     
 
     def __repr__(self):
@@ -68,8 +60,8 @@ class Rating(db.Model):
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     score = db.Column(db.Integer)
     project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-
+    project = db.relationship("Project", back_populates="rating")
+    
     def __repr__(self):
         return f"<Rating rating_id={self.rating_id} score={self.score}>"
     

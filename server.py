@@ -24,6 +24,7 @@ def home():
 def all_projects():
     """View all projects."""
 
+    
     project = crud.get_projects()
 
     return render_template("projects.html", project=project)
