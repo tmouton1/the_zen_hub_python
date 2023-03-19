@@ -26,7 +26,7 @@ Welcome to your personal page, {{user.username}}! <br><br>
 
 <h3>Your info:</h3>
 Email: {{user.email}}
-<h3>{{user.username}}'s' Personal Projects:</h3>
+<h3>{{user.username}}'s'  Project Lab:</h3>
 
 
 <div class="form-container">
@@ -36,16 +36,27 @@ Email: {{user.email}}
     <label for="projectname">Project name:</label>
     <input type="text" name="projectname">
     <br><br>
+    <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea><br>
 
-
-    <textarea id="description" name="description" rows="4" cols="50" placeholder="Tell us more about your project here.."></textarea>
-  <input type="submit" value="Submit">
+    <input type="submit" value="Submit">
 </form>
 
-  </form>
 
 
+    
 
+
+    
+   
+    
+
+        <br>
+     
+
+
+</li>
+
+</ul>
 
 
 {% endblock %}

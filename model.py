@@ -30,6 +30,9 @@ class Project(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), unique=False, nullable=False) 
     user = db.relationship("User", back_populates="project")
     pose = db.relationship("Pose", back_populates="project", lazy="dynamic")
+    pose_id = db.relationship("Pose", back_populates="project", lazy="dynamic")
+    posename = db.relationship("Pose", back_populates="project", lazy="dynamic")
+
     rating = db.relationship("Rating", back_populates="project", lazy="dynamic")
 
     def __repr__(self):
@@ -41,8 +44,6 @@ class Pose(db.Model):
 
     pose_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     posename = db.Column(db.String(255))
-    advanced = db.Column(db.Boolean, default = False)
-    description = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False) 
     user = db.relationship("User", back_populates="pose") 
     project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 

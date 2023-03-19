@@ -42,3 +42,115 @@ user_profile
 
 
  add db relationship for project to users table refer to unit 4 and 5 project
+
+
+//////////////////////////
+
+<label for="pose">Choose a pose:</label>
+    <select name="poses" id="poses">
+      <option value="mountain">Mountain Pose</option>
+      <option value="chair">Chair Pose</option>
+      <option value="Tree">Tree Pose</option>
+      <option value="Twist">Supine Twist </option>
+    </select>
+    
+
+
+
+ Project_details.html
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/projects">View all projects</a></li>
+      <li><a href="/users">View all users</a></li>
+      
+  </ul>
+    {% extends 'base.html' %}
+    {% block title %}{{ project.projectname }} - Details{% endblock %} {% block body %}
+
+    {% for project in projects %}
+
+    <a href="/projects/{{ project.project_id }}">{{ project.projectname }}</a><br><br>
+
+  
+    <p>
+      {{ project.description }}
+
+      {% endfor %}
+    </p>
+    
+<br>
+<br>
+<br>
+<h3>Rate Project</h3>
+
+<form action="/project/{{project.project_id}}" method="POST">
+    <input type="radio" id="1" name="rating" value="1">
+    <label for="1">1</label>
+    <input type="radio" id="2" name="rating" value="2">
+    <label for="2">2</label>
+    <input type="radio" id="3" name="rating" value="3">
+    <label for="3">3</label>
+    <input type="radio" id="4" name="rating" value="4">
+    <label for="4">4</label>
+    <input type="radio" id="5" zname="rating" value="5">
+    <label for="5">5</label><br>
+    <input type="submit" value="Submit" class="btn" />
+    </form>
+
+
+
+
+    {% endblock %}
+</body>
+</html>
+
+
+
+server.
+
+# ==================================================
+
+
+# @app.route("/projects/<project>")
+# def show_pose(pose_id):
+
+#     pose = crud.get_pose_by_id(pose_id)
+
+#     return render_template("/user_profile.html",pose=pose)
+
+
+# @app.route("/projects/<project_id>", methods=["POST"])
+# def create_rating(project_id):
+#     """Create a new rating for the project."""
+
+#     logged_in_email = session.get("user_email")
+#     rating_score = request.form.get("rating")
+
+#     if logged_in_email is None:
+#         flash("Please login to rate this project.")
+#     elif not rating_score:
+#         flash("Error: you didn't select a score for your rating.")
+#     else:
+#         user = crud.get_user_by_email(logged_in_email)
+#         project = crud.get_project_by_id(project_id)
+
+#         rating = crud.create_rating(user, project, int(rating_score))
+
+#         with app.app_context():
+
+#             db.session.add(rating)
+#             db.session.commit()
+
+#             flash(f"You rated this movie {rating_score} out of 5.")
+
+#             return redirect(f"/projects/{project_id}")

@@ -33,8 +33,10 @@
     <body>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/movies">View All Projects</a></li>
+        <li><a href="/projects">View All Projects</a></li>
       <li><a href="/users">View All Users</a></li> 
+
+
   </ul>
 
     <ul style ="list-style-type:none">
@@ -43,12 +45,20 @@
 
     <h3>Project Name</h3>
     
-    <a href="/projects/{{ project.project_id }}">{{project.projectname}}</a> <br>
-    Project User ID: <a href="/projects/{{ project.user_id }}">{{project.user_id}}</a><br>
-    
+    <a href="/projects/{{ project.project_id }}">{{project.projectname}}</a>
+    <h5>Project Description</h5>
+    {{project.description}}<br>
+    <a href="/projects/{{project.posename}}" >
 
+    </a>
+
+    <h5>Project Pose</h5>
+
+
+{% endfor %}
+  
         <br>
-        {% endfor %}
+       
 
 
 </li>

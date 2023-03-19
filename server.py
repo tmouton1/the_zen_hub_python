@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import Flask, render_template, url_for, request, flash, session,redirect
-from model import connect_to_db, db
+from model import connect_to_db, db, Pose
 import crud
-from forms import ProjectForm
+from forms import PoseForm
 
 from jinja2 import StrictUndefined
 
@@ -27,17 +27,8 @@ def all_projects():
     
     project = crud.get_projects()
 
+
     return render_template("projects.html", project=project)
-
-# ======================================================
-
-# @app.route("/projects/<project_id>")
-# def show_project(project_id):
-
-#     new_project = crud.get_project_by_id(project_id)
-
-
-    # return render_template("project_details.html", new_project=new_project)
 
 # ===============================
 
@@ -81,8 +72,6 @@ def register_user():
 
     return redirect("/")
 
-
-
 # =======================================================
 
 
@@ -105,31 +94,10 @@ def show_user(user_id):
 
 # ====================================================
 
-
 @app.route("/add_project", methods=['GET','POST'])
 def add_project():
+
     "add new project"
-
-    # projectname = False
-
-    # form = ProjectForm()
-    # if form.validate_on_submit():
-
-    #     projectname = False
-    #     description = False
-
-    #     projectname = form.projectname.data
-    #     description = form.description.data
-    #     form.projectname.data = ''
-    #     form.description.data = ''
-
-
-
-    #     return render_template('user_profile.html', projectname=projectname, description=description, form=form)
-
-
-
-
     logged_in_email = session.get("user_email")
     projectname = request.form.get("projectname")
     description = request.form.get("description")
@@ -140,56 +108,64 @@ def add_project():
     else:
         user = crud.get_user_by_email(logged_in_email)
 
-        new_project = crud.create_project(projectname,description)
+        new_project = crud.create_project(user.user_id,projectname,description)
 
         with app.app_context():
-
             db.session.add(new_project)
             db.session.commit()
 
-            flash(f"Thank you for adding project, {new_project}! Let's add some poses.")
+
+            flash(f"Thank you for adding {projectname}! Let's add some poses.")
 
             return redirect(f"/users/{user.user_id}")
 
 
     # ===========================================
 
-@app.route("/users/rating")
-def show_rating(score):
+@app.route("/add_pose", methods=['GET','POST'])
+def add_pose():
+    "add new pose"
+    
+    pose_form = PoseForm()
 
-    rating = crud.get_rating(score)
-    with app.app_context():
-        db.session.append(rating)
-        db.session.commit()
+    if pose_form.validate_on_submit():
+        posename = pose_form.posename.data
+        project_id = crud.get_project_by_id(project_id)
 
-    return render_template("user_profile.html",score=score)
-
-# =================================================
-@app.route("/projects/<project_id>", methods=["POST"])
-def create_rating(project_id):
-    """Create a new rating for the project."""
-
-    logged_in_email = session.get("user_email")
-    rating_score = request.form.get("rating")
-
-    if logged_in_email is None:
-        flash("Please login to rate this project.")
-    elif not rating_score:
-        flash("Error: you didn't select a score for your rating.")
-    else:
-        user = crud.get_user_by_email(logged_in_email)
-        project = crud.get_project_by_id(project_id)
-
-        rating = crud.create_rating(user, project, int(rating_score))
-
+        new_pose = Pose(posename, project_id)
         with app.app_context():
-
-            db.session.add(rating)
+            db.session.add(new_pose)
             db.session.commit()
 
-            flash(f"You rated this movie {rating_score} out of 5.")
+        return redirect(url_for("add_pose"))
+    else:
+        return render_template("project_details.html", pose_form=pose_form)
 
-            return redirect(f"/projects/{project_id}")
+
+    
+
+@app.route("/projects/<project_id>")
+def show_project(project_id):
+
+    project = crud.get_project_by_id(project_id)
+    pose_form = PoseForm()
+    
+
+
+    return render_template("/project_details.html",project=project, pose_form=pose_form)
+
+#  
+
+# =================================================
+
+# @app.route("/projects/<project_id>")
+# def show_pose(pose_id):
+
+#     pose = crud.get_pose_by_id(pose_id)
+
+#     return render_template("/project_details.html",pose=pose)
+
+
 
 
 
