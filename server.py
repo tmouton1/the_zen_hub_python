@@ -122,7 +122,7 @@ def add_project():
 
     # ===========================================
 
-@app.route("/add_pose", methods=['POST'])
+@app.route("/add_pose/project_id>", methods=['POST'])
 def add_pose():
     "add new pose"
 
@@ -152,7 +152,9 @@ def add_pose():
 def show_project(project_id):
 
     project = crud.get_project_by_id(project_id)
+    
     pose_form = PoseForm()
+
 
 
 
@@ -162,7 +164,46 @@ def show_project(project_id):
 
 # =================================================
 
-# @app.route("/projects/<project_id>")
+
+@app.route("/projects/<project_id>", methods=["POST"])
+def create_rating(project_id):
+    """Create a new rating for the movie."""
+
+    logged_in_email = session.get("user_email")
+    score = request.form.get("rating")
+
+    if logged_in_email is None:
+        flash("Please login to rate a movie.")
+    elif not score:
+        flash("Error: you didn't select a score for your rating.")
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        project = crud.get_project_by_id(project_id)
+
+        rating = crud.create_rating(project, int(score))
+
+        db.session.add(rating)
+        db.session.commit()
+        
+
+        flash(f"You rated this sequence {score} out of 5.")
+
+    return redirect(f"/projects/{project_id}")
+
+
+@app.route("/update_rating", methods=["POST"])
+def update_rating():
+    rating_id = request.json["rating_id"]
+    new_score = request.json["updated_score"]
+    crud.update_rating(rating_id, new_score)
+    
+    with app.app_context():
+        db.session.add(new_score)
+        db.session.commit()
+
+#     return "Success"
+
+# @app.route("/projects/<pose_id>")
 # def show_pose(pose_id):
 
 #     pose = crud.get_pose_by_id(pose_id)

@@ -54,8 +54,8 @@ def create_pose(posename):
 
 
 
-def create_rating(user, project, score):
-       rating = Rating(user=user, project=project, score=score)
+def create_rating(project, score):
+       rating = Rating(project=project, score=score)
 
        return rating
 
