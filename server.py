@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import Flask, render_template, url_for, request, flash, session,redirect
-from model import connect_to_db, db, Pose
+from model import connect_to_db, db, Pose, User
 import crud
-from forms import PoseForm
+from forms import PoseForm, ProjectForm
 
 from jinja2 import StrictUndefined
 
@@ -122,24 +122,28 @@ def add_project():
 
     # ===========================================
 
-@app.route("/add_pose", methods=['GET','POST'])
+@app.route("/add_pose", methods=['POST'])
 def add_pose():
     "add new pose"
-    
+
     pose_form = PoseForm()
+
 
     if pose_form.validate_on_submit():
         posename = pose_form.posename.data
-        project_id = crud.get_project_by_id(project_id)
+        
+        new_pose = Pose(posename)
 
-        new_pose = Pose(posename, project_id)
+
+        
         with app.app_context():
             db.session.add(new_pose)
             db.session.commit()
 
-        return redirect(url_for("add_pose"))
+        return redirect(url_for("project_details"))
     else:
-        return render_template("project_details.html", pose_form=pose_form)
+
+        return render_template("project_details.html")
 
 
     
@@ -149,7 +153,7 @@ def show_project(project_id):
 
     project = crud.get_project_by_id(project_id)
     pose_form = PoseForm()
-    
+
 
 
     return render_template("/project_details.html",project=project, pose_form=pose_form)

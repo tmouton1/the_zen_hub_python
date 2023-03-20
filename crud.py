@@ -38,17 +38,18 @@ def get_projects():
 def get_project_by_id(project_id):
        return Project.query.get(project_id)
 
+def get_pose_by_id(pose_id):
+      return Pose.query.get(pose_id)
 
-def create_pose(user_id,project_id, posename):
-      pose = Pose(user_id=user_id,project_id=project_id,posename=posename)
+def create_pose(posename):
+      pose = Pose(posename=posename)
 
       return pose
 
 # def get_poses():
 #       return Pose.query.all()
 
-def get_pose_by_id(pose_id):
-      return Pose.query.get(pose_id)
+
 
 
 

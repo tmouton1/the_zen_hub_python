@@ -154,3 +154,8 @@ server.
 #             flash(f"You rated this movie {rating_score} out of 5.")
 
 #             return redirect(f"/projects/{project_id}")
+
+
+server.py
+    # logged_in_email = session.get("user_email")
+    # posename = request.form.get("posename")

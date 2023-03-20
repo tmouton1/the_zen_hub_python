@@ -44,14 +44,17 @@ class Pose(db.Model):
 
     pose_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     posename = db.Column(db.String(255))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False) 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=True) 
     user = db.relationship("User", back_populates="pose") 
     project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 
     project = db.relationship("Project", back_populates="pose") 
+
+    def __init__(self,posename):
+        self.posename = posename
     
 
     def __repr__(self):
-        return f"<Pose pose_id={self.pose_id} description={self.description} posename={self.posename}>"
+        return f"<posename={self.posename}>"
 
 class Rating(db.Model):
     """A project rating."""
