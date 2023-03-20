@@ -24,12 +24,12 @@
 {% block body %}
 
 
-<h1>{{project.projectname}}</h1>
+<h2>{{project.projectname}}</h2>
 
 <div class="form-container">
   <h3>Add Poses</h3>
 
-  <form action="{{ url_for('add_pose') }}" method="POST">
+  <form action="/add_pose/{{project.project_id}}" method="POST">
     {{ pose_form.csrf_token() }}
     {{ pose_form.posename.label }}
     {{ pose_form.posename }}
