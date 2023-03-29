@@ -99,6 +99,7 @@ def add_project():
 
     "add new project"
     logged_in_email = session.get("user_email")
+    
     projectname = request.form.get("projectname")
     description = request.form.get("description")
 
@@ -108,7 +109,7 @@ def add_project():
     else:
         user = crud.get_user_by_email(logged_in_email)
 
-        new_project = crud.create_project(user.user_id,projectname,description)
+        new_project = crud.create_project(projectname,description,user.user_id)
 
         with app.app_context():
             db.session.add(new_project)
@@ -122,31 +123,31 @@ def add_project():
 
     # ===========================================
 
-@app.route("/add_pose/project_id>", methods=['POST'])
+@app.route("/add_pose/pose_id>", methods=['GET','POST'])
 def add_pose():
     "add new pose"
 
-    pose_form = PoseForm()
+    project = crud.get_project_by_id()
+    logged_in_email = session.get("user_email")
 
+    posename = request.form.get("posename")
 
-    if pose_form.validate_on_submit():
-        posename = pose_form.posename.data
-        
-        new_pose = Pose(posename)
+    if logged_in_email is None:
+        flash("Please login to create your project.")
+    else:
+        user = crud.get_user_by_email(logged_in_email)
+        new_pose = crud.create_pose(posename)
 
-
-        
         with app.app_context():
             db.session.add(new_pose)
             db.session.commit()
 
-        return redirect(url_for("project_details"))
-    else:
+  
+        flash(f"Thank you for adding {posename}!")
 
-        return render_template("project_details.html")
+        return redirect(f"project_details/ {project.project_id}")
+# -=========================================================
 
-
-    
 
 @app.route("/projects/<project_id>")
 def show_project(project_id):
@@ -155,13 +156,7 @@ def show_project(project_id):
     
     pose_form = PoseForm()
 
-
-
-
     return render_template("/project_details.html",project=project, pose_form=pose_form)
-
-#  
-
 # =================================================
 
 

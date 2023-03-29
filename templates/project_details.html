@@ -18,28 +18,35 @@
 
 </ul>
 
+
 {% extends 'base.html' %}
 {% block title %} {% endblock %}
 
 {% block body %}
 
 
+
 <h2>Project: {{project.projectname}}</h2>
 
-<div class="form-container">
-  <h3>Add Poses</h3>
-
-  <form action="/add_pose/{{project.project_id}}" method="POST">
-    {{ pose_form.csrf_token() }}
-    {{ pose_form.posename.label }}
-    {{ pose_form.posename }}
    
-    {{ pose_form.submit }}
+
+
+    <div class="form-container">
+      <h3>Add Pose</h3>
+      <form action="{{ url_for('add_pose') }}" method="POST">
+          {{ pose_form.csrf_token() }}
+          {{ pose_form.posename.label }}
+          {{ pose_form.posename }}
+ 
+          {{ pose_form.submit }}
+          
+      </form>
+
+
     
 </form>
 
-<table>
-  <a href="/projects/{{ project.project_id }}">{{project.pose}}</a>
+
 
   <tr>
     <th></th>

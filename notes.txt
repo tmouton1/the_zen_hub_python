@@ -159,3 +159,10 @@ server.
 server.py
     # logged_in_email = session.get("user_email")
     # posename = request.form.get("posename")
+
+
+
+
+
+    project details
+      <form action="{{ url_for ('add_pose') }}" method="POST">

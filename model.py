@@ -4,8 +4,6 @@ import os
 db = SQLAlchemy()
 
 
-
-
 class User(db.Model):
 
     __tablename__ = "users"
@@ -15,7 +13,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     project = db.relationship("Project", back_populates="user", lazy="dynamic")
-    pose = db.relationship("Pose", back_populates="user", lazy="dynamic" )
+    # pose = db.relationship("Pose", back_populates="user", lazy="dynamic" )
    
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email} username={self.username}>"
@@ -27,7 +25,7 @@ class Project(db.Model):
     project_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     projectname = db.Column(db.String(255), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), unique=False, nullable=False) 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), unique=False, nullable=True) 
     user = db.relationship("User", back_populates="project")
     pose = db.relationship("Pose", back_populates="project", lazy="dynamic")
     pose_id = db.relationship("Pose", back_populates="project", lazy="dynamic")
@@ -44,9 +42,9 @@ class Pose(db.Model):
 
     pose_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     posename = db.Column(db.String(255))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=True) 
-    user = db.relationship("User", back_populates="pose") 
-    project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=False) 
+    # user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=True) 
+    # user = db.relationship("User", back_populates="pose") 
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.project_id"), nullable=True) 
     project = db.relationship("Project", back_populates="pose") 
 
     def __init__(self,posename):
@@ -89,3 +87,4 @@ if __name__ == "__main__":
     from server import app
     
     connect_to_db(app)
+

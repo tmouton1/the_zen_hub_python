@@ -22,8 +22,8 @@ def get_user_by_email(email):
        return User.query.filter(User.email == email).first()
 
 
-def create_project(user_id,projectname, description):
-       project = Project(user_id=user_id,projectname=projectname, description=description)
+def create_project(projectname, description,user_id):
+       project = Project(projectname=projectname, description=description, user_id=user_id)
 
 
        return project
@@ -42,12 +42,12 @@ def get_pose_by_id(pose_id):
       return Pose.query.get(pose_id)
 
 def create_pose(posename):
-      pose = Pose(posename=posename)
+      pose = Pose(posename = posename)
 
       return pose
 
-# def get_poses():
-#       return Pose.query.all()
+def get_pose():
+      return Pose.query.all()
 
 
 

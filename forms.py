@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField,TextAreaField,BooleanField
+from wtforms import StringField, SubmitField,TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length
-from model import Project
 
 
 class ProjectForm(FlaskForm):
@@ -12,8 +11,11 @@ class ProjectForm(FlaskForm):
 
 class PoseForm(FlaskForm):
     posename = StringField('posename', validators=[DataRequired(), Length(min=4, max=255)])
+    # project_selection = SelectField("project") 
     submit = SubmitField("submit")
 
+    # def update_project(self, projects):
+    #     self.project_selection.choices = [ (projects.id, projects.project_name) for projects in projects ]
 
-    def update_projects(self, projects):
-        self.project_selection.choices = [ (project.project_id, project.projectname) for project in projects ]
+
+
