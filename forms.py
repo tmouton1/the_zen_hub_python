@@ -15,7 +15,5 @@ class PoseForm(FlaskForm):
     submit = SubmitField("submit")
 
     # def update_project(self, projects):
-    #     self.project_selection.choices = [ (projects.id, projects.project_name) for projects in projects ]
-
-
-
+    #     self.project_selection.choices =  [(projects.id, projects.projectname) for projects in projects] 
+   

@@ -28,8 +28,8 @@ class Project(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), unique=False, nullable=True) 
     user = db.relationship("User", back_populates="project")
     pose = db.relationship("Pose", back_populates="project", lazy="dynamic")
-    pose_id = db.relationship("Pose", back_populates="project", lazy="dynamic")
-    posename = db.relationship("Pose", back_populates="project", lazy="dynamic")
+    pose_id = db.relationship("Pose", back_populates="project", lazy="dynamic", overlaps="pose")
+    posename = db.relationship("Pose", back_populates="project", lazy="dynamic",overlaps="pose,pose_id")
 
     rating = db.relationship("Rating", back_populates="project", lazy="dynamic")
 

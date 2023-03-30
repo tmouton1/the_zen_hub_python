@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Flask, render_template, url_for, request, flash, session,redirect
-from model import connect_to_db, db, Pose, User
+from model import connect_to_db, db, Pose, User, Project
 import crud
 from forms import PoseForm, ProjectForm
 
@@ -11,6 +11,8 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
+user_id = 1
+project_id = 1
 
 @app.route("/")
 def home():
@@ -123,32 +125,36 @@ def add_project():
 
     # ===========================================
 
-@app.route("/add_pose/pose_id>", methods=['GET','POST'])
+
+
+@app.route("/add_pose", methods=['GET','POST'])
+
 def add_pose():
     "add new pose"
+    # poses = crud.get_pose()
+    project = crud.get_project_by_id(project_id)
+    pose_form = PoseForm()
 
-    project = crud.get_project_by_id()
-    logged_in_email = session.get("user_email")
-
-    posename = request.form.get("posename")
-
-    if logged_in_email is None:
-        flash("Please login to create your project.")
-    else:
-        user = crud.get_user_by_email(logged_in_email)
-        new_pose = crud.create_pose(posename)
+    if pose_form.validate_on_submit():
+        posename = pose_form.posename.data
+        # project_id = pose_form.project_selection.data
+        
+        new_pose = Pose(posename)
 
         with app.app_context():
             db.session.add(new_pose)
             db.session.commit()
 
-  
-        flash(f"Thank you for adding {posename}!")
+            flash(f"Thank you for adding {new_pose.posename}!")
 
-        return redirect(f"project_details/ {project.project_id}")
-# -=========================================================
+    return render_template("project_details.html", project=project, pose_form=pose_form,new_pose=new_pose)
+        
+#    -=========================================================
 
 
+
+
+# ======================================================/  
 @app.route("/projects/<project_id>")
 def show_project(project_id):
 
@@ -162,7 +168,7 @@ def show_project(project_id):
 
 @app.route("/projects/<project_id>", methods=["POST"])
 def create_rating(project_id):
-    """Create a new rating for the movie."""
+    """Create a new rating for the sequence."""
 
     logged_in_email = session.get("user_email")
     score = request.form.get("rating")
