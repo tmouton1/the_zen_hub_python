@@ -158,11 +158,18 @@ def add_pose():
 @app.route("/projects/<project_id>")
 def show_project(project_id):
 
-    project = crud.get_project_by_id(project_id)
-    
     pose_form = PoseForm()
 
-    return render_template("/project_details.html",project=project, pose_form=pose_form)
+
+    posename = pose_form.posename.data
+
+    project = crud.get_project_by_id(project_id)
+    
+
+    new_pose = Pose(posename)
+
+
+    return render_template("/project_details.html",project=project,pose_form=pose_form, new_pose=new_pose)
 # =================================================
 
 
