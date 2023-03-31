@@ -131,7 +131,6 @@ def add_project():
 
 def add_pose():
     "add new pose"
-    # poses = crud.get_pose()
     project = crud.get_project_by_id(project_id)
     pose_form = PoseForm()
 
@@ -144,13 +143,24 @@ def add_pose():
         with app.app_context():
             db.session.add(new_pose)
             db.session.commit()
+            
+            return redirect(url_for('list_pose'))
 
-            flash(f"Thank you for adding {new_pose.posename}!")
+    flash(f"Thank you for adding {new_pose.posename}!")
 
     return render_template("project_details.html", project=project, pose_form=pose_form,new_pose=new_pose)
-        
+
 #    -=========================================================
 
+@app.route('/list')
+def list_pose():
+    form = PoseForm()
+    posename = form.posename.data
+    poses = Pose.query.all()
+    new_pose = Pose(posename)
+
+
+    return render_template('add_pose.html', poses=poses, posename=posename, new_pose = new_pose)
 
 
 
