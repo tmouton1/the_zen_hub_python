@@ -15,7 +15,8 @@
 
 
 <div>
-    <ul>
+    <ul style="list-style-type:none;">
+        
         {% for pose in poses %}
 
 
@@ -25,7 +26,7 @@
             <a href="{{url_for}}"></a>
 
 
-            {{pose.posename}}
+            {{pose.pose_id}}:  {{pose.posename}}
 
 
         </li>
@@ -38,6 +39,44 @@
 
 
 </div>
+
+
+
+<br>
+<br>
+<br>
+
+<div>
+
+    <p><b>Remove A Pose</b></p>
+    
+        <form method="DELETE">
+          
+            
+            <form action="{{ url_for('del_pose') }}"method="DELETE">
+
+                <label for="poseid">Pose ID Number:</label><br>
+                <input type="text" id="poseid" name="poseid" placeholder="Enter pose number here..."><br>
+                <label for="posename">Pose name:</label><br>
+                <input type="text" id="posename" name="posename" placeholder="Enter pose name here..."><br>
+                <input type="submit" value="Submit">
+
+
+
+
+                
+            </form>
+            
+          </form> 
+
+</div>    
+
+
+
+
+
+
+
 {% endblock %}     
 
 </body>

@@ -2,7 +2,7 @@ from flask import Flask
 from flask import Flask, render_template, url_for, request, flash, session,redirect
 from model import connect_to_db, db, Pose, User, Project
 import crud
-from forms import PoseForm, ProjectForm
+from forms import PoseForm, ProjectForm, DelForm
 
 from jinja2 import StrictUndefined
 
@@ -207,7 +207,29 @@ def create_rating(project_id):
         flash(f"You rated this sequence {score} out of 5.")
 
     return redirect(f"/projects/{project_id}")
+# =================================================================================
 
+@app.route('/delete', methods= ['DELETE'])
+def del_pose():
+
+    form = DelForm()
+    id = form.id.data
+    pose= crud.get_pose_by_id(id)
+
+    if form.validate_on_submit():
+
+        with app.app_context():
+            db.session.delete(pose)
+            db.session.commit()
+    
+        return{"pose": [f'{pose.id} has been deleted'] }
+    
+    return render_template('/list')
+
+
+
+  
+# =====================================================
 
 @app.route("/update_rating", methods=["POST"])
 def update_rating():
